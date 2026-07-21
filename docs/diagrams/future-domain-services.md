@@ -15,6 +15,8 @@ flowchart LR
     Routes[Routes service]
     Builder[Route Builder service]
     Media[Media service]
+    Notifications["Notifications service (future)"]
+    Kafka["Kafka event backbone (conditional)"]
     Provider[External Routing Provider]
 
     Mobile --> EntryPoint
@@ -36,6 +38,14 @@ flowchart LR
     Builder --> Places
     Builder --> Routes
     Builder --> Provider
+
+    Identity -.->|integration events| Kafka
+    Users -.->|integration events| Kafka
+    Places -.->|integration events| Kafka
+    Routes -.->|integration events| Kafka
+    Builder -.->|integration events| Kafka
+    Media -.->|integration events| Kafka
+    Kafka -.->|event subscriptions| Notifications
 ```
 
 Стрелки обозначают logical contracts. Они не разрешают совместное владение
@@ -44,3 +54,7 @@ tables или cross-service ORM relations. Выделение любого servi
 
 `Ingress / API entry point` не является отдельным domain service или
 обязательным API gateway. На первом этапе запросы направляются в единый backend.
+
+Пунктирные связи обозначают возможный asynchronous flow после выполнения
+критериев ADR-005. Kafka не заменяет synchronous APIs и отсутствует в текущей
+deployment topology.

@@ -28,6 +28,10 @@ security hardening, backup или scaling policy.
 Backend и Flutter в этот Compose не входят: они будут находиться в отдельных
 repositories.
 
+Kafka также не входит в текущий Compose. Согласно ADR-005 broker добавляется
+только после появления подтверждённого producer/consumer flow и отдельного
+activation decision. До этого domain events обрабатываются in-process.
+
 ## Environment
 
 Команда `make init` проверяет Docker Compose и копирует `.env.example` в `.env`
@@ -84,5 +88,8 @@ make clean CONFIRM=yes
 - Compose credentials допустимы только для local environment.
 - `minio-init` является one-shot container и после успешного создания bucket
   завершается с code `0`.
+- Local Kafka profile не создаётся заранее. При активации он должен повторять
+  production-relevant KRaft и security assumptions в разумных для developer
+  machine пределах.
 - Production deployment, certificates, secret management и backups описываются
   отдельно в infrastructure repository.

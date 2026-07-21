@@ -31,9 +31,11 @@ REQUIRED_FILES=(
   docs/decisions/ADR-002-separate-mobile-backend-infrastructure-repositories.md
   docs/decisions/ADR-003-postgresql-postgis.md
   docs/decisions/ADR-004-routing-provider-abstraction.md
+  docs/decisions/ADR-005-kafka-as-planned-event-backbone.md
   docs/diagrams/container-diagram.md
   docs/diagrams/future-domain-services.md
   docs/diagrams/route-generation-flow.md
+  docs/events/event-catalog.md
   docs/repositories/tourism-platform.md
   docs/repositories/tourism-mobile.md
   docs/repositories/tourism-backend.md

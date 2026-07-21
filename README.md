@@ -22,6 +22,7 @@ Crimea Travel Platform — рабочее название новой мобил
 - Чёткие границы `identity`, `users`, `geography`, `places`, `routes`,
   `route_builder` и `media`.
 - Независимая от поставщика абстракция `RoutingProvider`.
+- Kafka как планируемый conditional event backbone для будущих services.
 - Возможность последующего выделения модулей в микросервисы.
 
 Ключевые решения описаны в [docs/decisions](docs/decisions).
@@ -58,7 +59,8 @@ make ps
 ```
 
 Локально запускаются только PostgreSQL/PostGIS, Redis, MinIO и Mailpit. Backend
-и Flutter намеренно отсутствуют в Compose.
+и Flutter намеренно отсутствуют в Compose. Kafka также не запускается до
+выполнения критериев ADR-005.
 
 После запуска:
 
@@ -131,6 +133,8 @@ mobile_travel_app/
 - [Preliminary domain model](docs/domain-model.md)
 - [Repository strategy](docs/repository-strategy.md)
 - [Local development](docs/local-development.md)
+- [Architecture decisions](docs/decisions)
+- [Preliminary event catalog](docs/events/event-catalog.md)
 - [Repository profiles](docs/repositories)
 - [Domain service profiles](docs/services)
 

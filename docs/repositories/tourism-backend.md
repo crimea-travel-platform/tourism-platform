@@ -14,6 +14,7 @@ Git submodule общего superproject.
 - Управлять прикладными миграциями PostgreSQL и PostGIS.
 - Интегрироваться с Redis и внешними поставщиками через адаптеры.
 - Обеспечивать фоновые операции, аудит и эксплуатационную диагностику.
+- Определять transport-neutral application и integration event contracts.
 - Соблюдать границы владения данными между доменами.
 
 ## Вне целей
@@ -31,6 +32,9 @@ Git submodule общего superproject.
 - `uv`, Ruff, MyPy и Pytest.
 - Redis для кеширования, ограничений и краткоживущей координации.
 - Celery или Dramatiq только после появления реальных background tasks.
+- Kafka как planned integration event transport только после активации
+  ADR-005.
+- Transactional Outbox и idempotent consumers для надёжной event delivery.
 - OpenAPI, structured JSON logs, health check и readiness check.
 - Configuration через environment variables без secrets в repository.
 - Контейнерные сборки и автоматизированные проверки.
@@ -41,6 +45,7 @@ Git submodule общего superproject.
 - `tourism-infrastructure` через соглашения о конфигурации и выпуске.
 - `tourism-documentation` как источник архитектурных решений.
 - PostgreSQL, PostGIS и Redis как управляемые зависимости среды.
+- Kafka через infrastructure adapter; domain layer не импортирует Kafka SDK.
 - Картографические, геокодинговые и объектные хранилища через порты.
 
 ## Результаты
@@ -78,5 +83,7 @@ Git submodule общего superproject.
 - [ ] Определить показатели доступности и задержки.
 - [ ] Настроить резервное копирование и учения по восстановлению.
 - [ ] Включить аудит административных и чувствительных операций.
+- [ ] Реализовать outbox только для подтверждённого asynchronous flow.
+- [ ] Добавить schema compatibility и consumer contract tests до Kafka.
 - [ ] Оценивать извлечение доменных модулей только по утверждённым
   критериям.

@@ -16,6 +16,7 @@ flowchart LR
         PostgreSQL["PostgreSQL / PostGIS"]
         Redis["Redis"]
         Storage["S3-compatible Storage"]
+        Kafka["Kafka event backbone (future conditional)"]
     end
 
     Traveler --> Flutter
@@ -26,8 +27,13 @@ flowchart LR
     Backend -->|cache rate limits| Redis
     Backend -->|S3 API| Storage
     Backend -->|normalized routing contract| Routing
+    Backend -.->|integration events after activation| Kafka
 ```
 
 `Admin Application` показан как будущий внешний клиент. Он не создаётся на
 foundation-этапе. `Kubernetes Ingress` относится к целевой deployment topology;
 local Compose не запускает Kubernetes.
+
+Kafka показана как условный целевой component согласно ADR-005. В текущем
+modular monolith events обрабатываются in-process, а `compose.yaml` не содержит
+broker.

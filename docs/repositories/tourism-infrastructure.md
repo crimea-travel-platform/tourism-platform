@@ -14,6 +14,8 @@ superproject.
 - Автоматизировать сборку, доставку, миграции и откат.
 - Управлять наблюдаемостью, резервным копированием и восстановлением.
 - Определять безопасную передачу конфигурации и ссылок на секреты.
+- Управлять lifecycle, ACL, retention и observability event infrastructure
+  после её активации.
 - Контролировать стоимость, ёмкость и эксплуатационные ограничения.
 
 ## Вне целей
@@ -30,6 +32,8 @@ superproject.
 - Kubernetes Ingress как API entry point.
 - GitHub Actions для validation и контролируемой доставки.
 - PostgreSQL/PostGIS, Redis и S3-compatible object storage.
+- Kafka в KRaft mode как conditional event backbone после approval ADR
+  активации; конкретный provider или operator пока не выбран.
 - Подготовленные точки подключения Prometheus, Grafana, Loki и Sentry.
 - Внешний secret manager и минимально необходимые права в будущем.
 - Terraform не добавляется на текущем этапе.
@@ -41,6 +45,7 @@ superproject.
 - `tourism-documentation` через эксплуатационные решения и инструкции.
 - Поставщик вычислений, DNS, сертификатов и управляемых хранилищ.
 - Системы CI, мониторинга и уведомлений.
+- Kafka clients через authenticated principals, TLS, quotas и topic policies.
 
 ## Результаты
 
@@ -81,7 +86,16 @@ superproject.
 - [ ] Проверить масштабирование и пределы ёмкости.
 - [ ] Ввести контроль затрат и сроков хранения данных.
 
-### Этап 5. Размещение в workspace
+### Этап 5. Conditional event backbone
+
+- [ ] Проверить критерии активации ADR-005 на реальном use case.
+- [ ] Выбрать managed Kafka, Kubernetes operator или другой deployment model.
+- [ ] Спроектировать KRaft cluster, storage, availability и upgrade policy.
+- [ ] Настроить TLS, ACL, quotas, retention, consumer lag и dead-letter
+  monitoring.
+- [ ] Провести failure и replay exercises до production.
+
+### Этап 6. Размещение в workspace
 
 - [ ] Создать приватный удалённый репозиторий отдельным процессом.
 - [ ] Настроить защищённые проверки изменений.
