@@ -39,5 +39,5 @@ clean: ## Удалить контейнеры и volumes (требует CONFIRM
 validate: ## Выполнить безопасные локальные проверки
 	@./scripts/validate.sh
 
-clone-repositories: ## Клонировать sibling repositories в workspace
+clone-repositories: ## Добавить repositories как submodules superproject
 	@./scripts/clone-repositories.sh

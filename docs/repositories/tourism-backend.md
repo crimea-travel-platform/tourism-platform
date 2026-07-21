@@ -5,7 +5,7 @@
 `tourism-backend` — отдельный будущий репозиторий серверной реализации.
 Именно в нём с первого server iteration развивается modular monolith. После
 создания private remote он клонируется рядом с `tourism-platform` как
-independent sibling repository.
+Git submodule общего superproject.
 
 ## Ответственность
 
@@ -55,7 +55,7 @@ independent sibling repository.
 
 ### Этап 1. Foundation
 
-- [ ] Создать private remote и клонировать sibling repository.
+- [ ] Создать private remote и добавить repository как submodule.
 - [ ] Создать Python 3.13 project через `uv`.
 - [ ] Зафиксировать domain boundaries и dependency rules.
 - [ ] Настроить FastAPI, configuration, logs и health endpoints.

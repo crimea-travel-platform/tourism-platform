@@ -37,14 +37,14 @@ Crimea Travel Platform — рабочее название новой мобил
 | `tourism-documentation` | Расширенная продуктовая и архитектурная документация |
 
 После создания private remotes остальные repositories клонируются рядом с
-`tourism-platform` в общей локальной папке workspace. Они остаются полностью
-независимыми Git repositories и не являются submodules.
+`tourism-platform` как Git submodules общего superproject. Каждый repository
+сохраняет собственную историю, а superproject фиксирует совместимые commits.
 
 ## Требования
 
 - macOS или Linux;
 - Git;
-- GitHub CLI (`gh`) для будущего клонирования sibling repositories;
+- GitHub CLI (`gh`) для будущего подключения submodules;
 - Docker Desktop или Docker Engine с Compose v2;
 - GNU Make;
 - PowerShell 7 — только для запуска PowerShell-вариантов скриптов.
@@ -83,7 +83,7 @@ make ps
 | `make logs` | Следить за логами |
 | `make clean CONFIRM=yes` | Удалить контейнеры и локальные volumes |
 | `make validate` | Выполнить безопасные локальные проверки |
-| `make clone-repositories` | Клонировать sibling repositories |
+| `make clone-repositories` | Добавить repositories как submodules |
 
 `make clean` без `CONFIRM=yes` никогда не удаляет volumes.
 
@@ -93,7 +93,7 @@ make ps
 .
 ├── .github/          # Issue forms, PR template и CI validation
 ├── docs/             # Видение, модель, ADR, диаграммы и паспорта
-├── scripts/          # Bootstrap, validation и управление workspace
+├── scripts/          # Bootstrap, validation и управление submodules
 ├── compose.yaml      # Только локальные инфраструктурные зависимости
 ├── Makefile
 └── README.md
@@ -110,7 +110,8 @@ mobile_travel_app/
 └── tourism-documentation/
 ```
 
-Корневая папка `mobile_travel_app` не является Git repository.
+Корневая папка `mobile_travel_app` является отдельным Git superproject.
+Каталоги внутри неё регистрируются в `.gitmodules`.
 
 ## Legacy reference
 
@@ -136,7 +137,7 @@ mobile_travel_app/
 ## Дальнейшие шаги
 
 1. Создать приватные remote-репозитории.
-2. Клонировать repositories рядом с `tourism-platform`.
+2. Добавить repositories в superproject как submodules.
 3. Сформировать skeleton модульного backend.
 4. Сформировать foundation Flutter-приложения.
 5. Подготовить инфраструктурный репозиторий и окружение `dev`.

@@ -5,15 +5,15 @@
 `tourism-platform` — главный репозиторий платформы и единая точка входа
 для разработки. Он содержит общие инженерные соглашения, верхнеуровневую
 документацию и локальное инфраструктурное окружение, но не application source.
-Позднее остальные repositories клонируются рядом с ним как independent sibling
-directories после создания private remotes.
+Он и остальные repositories подключаются как Git submodules общего
+superproject.
 
 ## Ответственность
 
 - Описывать границы модулей, contracts и правила зависимостей.
 - Предоставлять единые команды запуска, проверки и локальной разработки.
 - Содержать local Compose для PostgreSQL/PostGIS, Redis, MinIO и Mailpit.
-- Предоставлять единый вход в local multi-repository workspace.
+- Предоставлять tooling для local multi-repository superproject.
 - Служить местом интеграционной проверки всей платформы.
 
 ## Вне целей
@@ -30,7 +30,7 @@ directories после создания private remotes.
 - Docker Compose для общих local dependencies.
 - Bash, PowerShell и Make для developer workflow.
 - GitHub Actions для validation без deployment.
-- Clone scripts для sibling repositories `tourism-mobile`,
+- Submodule scripts для repositories `tourism-mobile`,
   `tourism-backend`, `tourism-infrastructure` и `tourism-documentation`.
 
 ## Интеграции
@@ -47,7 +47,7 @@ directories после создания private remotes.
 - Документированные границы и architecture decisions.
 - Воспроизводимое локальное окружение.
 - Validation конфигурации и управляющих файлов.
-- Описанный порядок клонирования private sibling repositories.
+- Описанный порядок подключения private repositories как submodules.
 - Базовые эксплуатационные метрики, журналы и трассировка.
 
 ## Поэтапный план
@@ -62,7 +62,7 @@ directories после создания private remotes.
 ### Этап 2. Минимальный продукт
 
 - [ ] Создать четыре private дочерних repositories.
-- [ ] Клонировать их рядом с `tourism-platform`.
+- [ ] Добавить их в superproject как Git submodules.
 - [ ] Зафиксировать совместимый набор commits.
 - [ ] Добавить integration contract checks после появления приложений.
 
@@ -77,7 +77,7 @@ directories после создания private remotes.
 
 - [ ] Создать приватные удалённые репозитории отдельным процессом.
 - [ ] Согласовать версии и права доступа.
-- [ ] Проверить sibling workspace и независимость Git histories.
+- [ ] Проверить submodule workflow и независимость Git histories.
 - [ ] Настроить сквозные проверки без дублирования ответственности.
 
 ### Этап 5. Эволюция

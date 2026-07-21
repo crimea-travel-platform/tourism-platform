@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-WORKSPACE_ROOT="$(cd -- "${PROJECT_ROOT}/.." && pwd)"
+SUPERPROJECT_ROOT="$(cd -- "${PROJECT_ROOT}/.." && pwd)"
 GITHUB_ORG="${GITHUB_ORG:-crimea-travel-platform}"
 REPOSITORIES=(
   tourism-mobile
@@ -30,6 +30,12 @@ if ! git -C "${PROJECT_ROOT}" rev-parse --show-toplevel >/dev/null 2>&1; then
   exit 1
 fi
 
+if [[ "$(git -C "${SUPERPROJECT_ROOT}" rev-parse --show-toplevel 2>/dev/null)" != \
+  "${SUPERPROJECT_ROOT}" ]]; then
+  printf 'Ошибка: %s не является Git superproject.\n' "${SUPERPROJECT_ROOT}" >&2
+  exit 1
+fi
+
 if ! gh auth status >/dev/null 2>&1; then
   printf 'Ошибка: GitHub CLI не авторизован. Выполните "gh auth login".\n' >&2
   exit 1
@@ -37,7 +43,7 @@ fi
 
 printf 'Проверка репозиториев организации %s...\n' "${GITHUB_ORG}"
 for repository in "${REPOSITORIES[@]}"; do
-  target="${WORKSPACE_ROOT}/${repository}"
+  target="${SUPERPROJECT_ROOT}/${repository}"
   if [[ -e "${target}" ]]; then
     printf 'Пропуск %s: каталог уже существует и не будет перезаписан.\n' "${target}"
     continue
@@ -51,18 +57,20 @@ for repository in "${REPOSITORIES[@]}"; do
 done
 
 for repository in "${REPOSITORIES[@]}"; do
-  target="${WORKSPACE_ROOT}/${repository}"
+  target="${SUPERPROJECT_ROOT}/${repository}"
   if [[ -e "${target}" ]]; then
     continue
   fi
 
-  printf 'Клонирование sibling repository %s...\n' "${repository}"
-  if ! gh repo clone "${GITHUB_ORG}/${repository}" "${target}"; then
-    printf 'Ошибка: не удалось клонировать %s/%s.\n' \
+  printf 'Добавление submodule %s...\n' "${repository}"
+  if ! git -C "${SUPERPROJECT_ROOT}" submodule add \
+    "https://github.com/${GITHUB_ORG}/${repository}.git" \
+    "${repository}"; then
+    printf 'Ошибка: не удалось добавить submodule %s/%s.\n' \
       "${GITHUB_ORG}" "${repository}" >&2
     exit 1
   fi
 done
 
-printf 'Готово. Репозитории размещены рядом с tourism-platform в %s.\n' \
-  "${WORKSPACE_ROOT}"
+printf 'Готово. Проверьте .gitmodules и submodule pointers в %s.\n' \
+  "${SUPERPROJECT_ROOT}"

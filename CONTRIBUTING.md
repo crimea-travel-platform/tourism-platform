@@ -34,7 +34,7 @@ Conventional Commits, например `docs: describe geography domain`.
 
 ## Local workspace
 
-Repositories клонируются как независимые sibling directories в общей локальной
-папке. Не вкладывайте один Git repository внутрь другого и не добавляйте
-submodules. Используйте предусмотренные clone scripts после создания
-соответствующих private remotes.
+Repositories подключаются как Git submodules общего superproject. Изменения
+сначала коммитятся и публикуются в дочернем repository, после чего superproject
+обновляет соответствующий commit pointer. Используйте предусмотренные scripts
+после создания remotes и не копируйте source между repositories.

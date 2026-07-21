@@ -4,7 +4,7 @@
 
 `tourism-mobile` предназначен для мобильного клиентского приложения
 платформы. После создания private remote он клонируется рядом с
-`tourism-platform` как independent sibling repository.
+`tourism-platform` как Git submodule общего superproject.
 
 ## Ответственность
 
@@ -79,5 +79,5 @@
 
 - [ ] Создать приватный удалённый репозиторий отдельным процессом.
 - [ ] Настроить проверки и правила выпуска.
-- [ ] Клонировать repository рядом с `tourism-platform`.
+- [ ] Добавить repository в superproject как submodule.
 - [ ] Зафиксировать совместимую версию серверного контракта.

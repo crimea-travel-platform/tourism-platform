@@ -4,8 +4,8 @@
 
 `tourism-documentation` предназначен для долговременной архитектурной,
 продуктовой и эксплуатационной документации платформы. После создания
-private remote он клонируется рядом с `tourism-platform` как independent
-sibling repository.
+private remote он клонируется рядом с `tourism-platform` как Git submodule
+общего superproject.
 
 ## Ответственность
 
@@ -79,5 +79,5 @@ sibling repository.
 
 - [ ] Создать приватный удалённый репозиторий отдельным процессом.
 - [ ] Перенести утверждённые материалы без дублирования.
-- [ ] Клонировать repository рядом с `tourism-platform`.
+- [ ] Добавить repository в superproject как submodule.
 - [ ] Настроить регулярный пересмотр документов.

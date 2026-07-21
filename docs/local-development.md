@@ -11,7 +11,7 @@ security hardening, backup или scaling policy.
 - macOS или Linux;
 - Git и Make;
 - Docker Desktop с Compose v2;
-- GitHub CLI для будущего клонирования private repositories;
+- GitHub CLI для будущего подключения private submodules;
 - PowerShell 7 только для запуска `.ps1` scripts.
 
 ## Base services
@@ -70,13 +70,12 @@ make clean CONFIRM=yes
 6. Открыть Mailpit на `http://localhost:8025`.
 7. Выполнить `make validate` перед pull request.
 
-## Future sibling repositories
+## Future submodules
 
 После создания private remote repositories команда `make clone-repositories`
-проверит `git`, `gh`, authorization и доступность всех remotes, затем добавит
-их как sibling directories рядом с `tourism-platform`. Общая родительская
-directory не является Git repository. Сейчас эту команду запускать не следует:
-remotes ещё не созданы. Скрипт не перезаписывает существующие каталоги.
+проверит `git`, `gh`, authorization, superproject и доступность всех remotes,
+затем добавит их как Git submodules рядом с `tourism-platform`. Скрипт не
+перезаписывает существующие каталоги.
 
 ## Ограничения
 

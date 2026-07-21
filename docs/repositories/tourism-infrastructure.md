@@ -4,8 +4,8 @@
 
 `tourism-infrastructure` предназначен для описания и автоматизации сред,
 доставки и эксплуатации платформы. После создания приватного удалённого
-репозитория он клонируется рядом с `tourism-platform` как independent sibling
-repository.
+репозитория он клонируется рядом с `tourism-platform` как Git submodule общего
+superproject.
 
 ## Ответственность
 
@@ -85,4 +85,4 @@ repository.
 
 - [ ] Создать приватный удалённый репозиторий отдельным процессом.
 - [ ] Настроить защищённые проверки изменений.
-- [ ] Клонировать repository рядом с `tourism-platform`.
+- [ ] Добавить repository в superproject как submodule.
