@@ -1,0 +1,43 @@
+name: Feature request
+description: Предложить продуктовую или техническую возможность
+title: "feat: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Проблема
+      description: Какую пользовательскую или техническую проблему нужно решить?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Предлагаемое решение
+      description: Опишите ожидаемое поведение без привязки к лишним деталям реализации.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Альтернативы
+      description: Какие варианты уже рассматривались?
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Предполагаемый контур
+      options:
+        - tourism-platform
+        - tourism-mobile
+        - tourism-backend
+        - tourism-infrastructure
+        - tourism-documentation
+        - Не определён
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Критерии готовности
+      description: По каким наблюдаемым признакам задача будет завершена?

@@ -1,0 +1,24 @@
+# Local configuration
+.env
+.env.*
+!.env.example
+
+# Operating systems and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Logs and temporary files
+*.log
+tmp/
+.cache/
+
+# Tooling
+.venv/
+node_modules/
+
+# Local coverage and generated reports
+coverage/
+reports/
