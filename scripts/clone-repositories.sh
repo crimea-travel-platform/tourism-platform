@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-WORKSPACE_DIR="${PROJECT_ROOT}/workspace"
+WORKSPACE_ROOT="$(cd -- "${PROJECT_ROOT}/.." && pwd)"
 GITHUB_ORG="${GITHUB_ORG:-crimea-travel-platform}"
 REPOSITORIES=(
   tourism-mobile
@@ -37,7 +37,7 @@ fi
 
 printf 'Проверка репозиториев организации %s...\n' "${GITHUB_ORG}"
 for repository in "${REPOSITORIES[@]}"; do
-  target="${WORKSPACE_DIR}/${repository}"
+  target="${WORKSPACE_ROOT}/${repository}"
   if [[ -e "${target}" ]]; then
     printf 'Пропуск %s: каталог уже существует и не будет перезаписан.\n' "${target}"
     continue
@@ -50,18 +50,19 @@ for repository in "${REPOSITORIES[@]}"; do
   fi
 done
 
-mkdir -p "${WORKSPACE_DIR}"
-
 for repository in "${REPOSITORIES[@]}"; do
-  target="${WORKSPACE_DIR}/${repository}"
+  target="${WORKSPACE_ROOT}/${repository}"
   if [[ -e "${target}" ]]; then
     continue
   fi
 
-  printf 'Добавление submodule %s...\n' "${repository}"
-  git -C "${PROJECT_ROOT}" submodule add \
-    "https://github.com/${GITHUB_ORG}/${repository}.git" \
-    "workspace/${repository}"
+  printf 'Клонирование sibling repository %s...\n' "${repository}"
+  if ! gh repo clone "${GITHUB_ORG}/${repository}" "${target}"; then
+    printf 'Ошибка: не удалось клонировать %s/%s.\n' \
+      "${GITHUB_ORG}" "${repository}" >&2
+    exit 1
+  fi
 done
 
-printf 'Готово. Проверьте изменения .gitmodules и gitlinks перед commit.\n'
+printf 'Готово. Репозитории размещены рядом с tourism-platform в %s.\n' \
+  "${WORKSPACE_ROOT}"

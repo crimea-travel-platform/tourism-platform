@@ -5,15 +5,15 @@
 `tourism-platform` — главный репозиторий платформы и единая точка входа
 для разработки. Он содержит общие инженерные соглашения, верхнеуровневую
 документацию и локальное инфраструктурное окружение, но не application source.
-Позднее остальные repositories подключаются в `workspace/` как Git submodules
-после создания private remotes.
+Позднее остальные repositories клонируются рядом с ним как independent sibling
+directories после создания private remotes.
 
 ## Ответственность
 
 - Описывать границы модулей, contracts и правила зависимостей.
 - Предоставлять единые команды запуска, проверки и локальной разработки.
 - Содержать local Compose для PostgreSQL/PostGIS, Redis, MinIO и Mailpit.
-- Фиксировать версии подключаемых подмодулей в `workspace/`.
+- Предоставлять единый вход в local multi-repository workspace.
 - Служить местом интеграционной проверки всей платформы.
 
 ## Вне целей
@@ -30,9 +30,8 @@
 - Docker Compose для общих local dependencies.
 - Bash, PowerShell и Make для developer workflow.
 - GitHub Actions для validation без deployment.
-- Каталог `workspace/` для подмодулей `tourism-mobile`,
-  `tourism-backend`, `tourism-infrastructure` и
-  `tourism-documentation`.
+- Clone scripts для sibling repositories `tourism-mobile`,
+  `tourism-backend`, `tourism-infrastructure` и `tourism-documentation`.
 
 ## Интеграции
 
@@ -48,7 +47,7 @@
 - Документированные границы и architecture decisions.
 - Воспроизводимое локальное окружение.
 - Validation конфигурации и управляющих файлов.
-- Описанный порядок подключения приватных репозиториев как подмодулей.
+- Описанный порядок клонирования private sibling repositories.
 - Базовые эксплуатационные метрики, журналы и трассировка.
 
 ## Поэтапный план
@@ -63,7 +62,7 @@
 ### Этап 2. Минимальный продукт
 
 - [ ] Создать четыре private дочерних repositories.
-- [ ] Подключить их как Git submodules.
+- [ ] Клонировать их рядом с `tourism-platform`.
 - [ ] Зафиксировать совместимый набор commits.
 - [ ] Добавить integration contract checks после появления приложений.
 
@@ -74,11 +73,11 @@
 - [ ] Проверить резервное копирование и восстановление данных.
 - [ ] Задокументировать ограничения производительности.
 
-### Этап 4. Подключение репозиториев
+### Этап 4. Multi-repository workspace
 
 - [ ] Создать приватные удалённые репозитории отдельным процессом.
 - [ ] Согласовать версии и права доступа.
-- [ ] Подключить репозитории в `workspace/` как подмодули Git.
+- [ ] Проверить sibling workspace и независимость Git histories.
 - [ ] Настроить сквозные проверки без дублирования ответственности.
 
 ### Этап 5. Эволюция

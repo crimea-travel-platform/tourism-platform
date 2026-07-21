@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
-$WorkspaceDir = Join-Path $ProjectRoot "workspace"
+$WorkspaceRoot = Split-Path -Parent $ProjectRoot
 $GitHubOrg = if ($env:GITHUB_ORG) { $env:GITHUB_ORG } else { "crimea-travel-platform" }
 $Repositories = @(
     "tourism-mobile",
@@ -34,7 +34,7 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host "Проверка репозиториев организации $GitHubOrg..."
 foreach ($Repository in $Repositories) {
-    $Target = Join-Path $WorkspaceDir $Repository
+    $Target = Join-Path $WorkspaceRoot $Repository
     if (Test-Path -LiteralPath $Target) {
         Write-Host "Пропуск $Target`: каталог уже существует и не будет перезаписан."
         continue
@@ -46,21 +46,17 @@ foreach ($Repository in $Repositories) {
     }
 }
 
-New-Item -ItemType Directory -Path $WorkspaceDir -Force | Out-Null
-
 foreach ($Repository in $Repositories) {
-    $Target = Join-Path $WorkspaceDir $Repository
+    $Target = Join-Path $WorkspaceRoot $Repository
     if (Test-Path -LiteralPath $Target) {
         continue
     }
 
-    Write-Host "Добавление submodule $Repository..."
-    & git -C $ProjectRoot submodule add `
-        "https://github.com/$GitHubOrg/$Repository.git" `
-        "workspace/$Repository"
+    Write-Host "Клонирование sibling repository $Repository..."
+    & gh repo clone "$GitHubOrg/$Repository" $Target
     if ($LASTEXITCODE -ne 0) {
-        throw "Не удалось добавить submodule $Repository."
+        throw "Не удалось клонировать $GitHubOrg/$Repository."
     }
 }
 
-Write-Host "Готово. Проверьте изменения .gitmodules и gitlinks перед commit."
+Write-Host "Готово. Репозитории размещены рядом с tourism-platform в $WorkspaceRoot."

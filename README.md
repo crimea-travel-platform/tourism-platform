@@ -36,14 +36,15 @@ Crimea Travel Platform — рабочее название новой мобил
 | `tourism-infrastructure` | Kubernetes, Helm и конфигурации окружений |
 | `tourism-documentation` | Расширенная продуктовая и архитектурная документация |
 
-После создания приватных remote-репозиториев они будут подключаться как Git
-submodules в `workspace/`. Текущий репозиторий не создаёт их автоматически.
+После создания private remotes остальные repositories клонируются рядом с
+`tourism-platform` в общей локальной папке workspace. Они остаются полностью
+независимыми Git repositories и не являются submodules.
 
 ## Требования
 
 - macOS или Linux;
 - Git;
-- GitHub CLI (`gh`) для будущего подключения submodules;
+- GitHub CLI (`gh`) для будущего клонирования sibling repositories;
 - Docker Desktop или Docker Engine с Compose v2;
 - GNU Make;
 - PowerShell 7 — только для запуска PowerShell-вариантов скриптов.
@@ -82,7 +83,7 @@ make ps
 | `make logs` | Следить за логами |
 | `make clean CONFIRM=yes` | Удалить контейнеры и локальные volumes |
 | `make validate` | Выполнить безопасные локальные проверки |
-| `make clone-repositories` | Подключить будущие репозитории как submodules |
+| `make clone-repositories` | Клонировать sibling repositories |
 
 `make clean` без `CONFIRM=yes` никогда не удаляет volumes.
 
@@ -92,11 +93,24 @@ make ps
 .
 ├── .github/          # Issue forms, PR template и CI validation
 ├── docs/             # Видение, модель, ADR, диаграммы и паспорта
-├── scripts/          # Bootstrap, validation и работа с submodules
+├── scripts/          # Bootstrap, validation и управление workspace
 ├── compose.yaml      # Только локальные инфраструктурные зависимости
 ├── Makefile
 └── README.md
 ```
+
+Ожидаемая локальная структура уровнем выше:
+
+```text
+mobile_travel_app/
+├── tourism-platform/
+├── tourism-mobile/
+├── tourism-backend/
+├── tourism-infrastructure/
+└── tourism-documentation/
+```
+
+Корневая папка `mobile_travel_app` не является Git repository.
 
 ## Legacy reference
 
@@ -122,7 +136,7 @@ make ps
 ## Дальнейшие шаги
 
 1. Создать приватные remote-репозитории.
-2. Подключить их как submodules.
+2. Клонировать repositories рядом с `tourism-platform`.
 3. Сформировать skeleton модульного backend.
 4. Сформировать foundation Flutter-приложения.
 5. Подготовить инфраструктурный репозиторий и окружение `dev`.

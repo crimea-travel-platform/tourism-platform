@@ -32,8 +32,9 @@ Conventional Commits, например `docs: describe geography domain`.
 Изменение accepted ADR выполняется новым ADR, который заменяет предыдущее
 решение, а не незаметным переписыванием истории.
 
-## Submodules
+## Local workspace
 
-Не размещайте независимый Git-репозиторий в произвольном каталоге. Дочерние
-репозитории подключаются только как submodules в `workspace/` через
-предусмотренные скрипты после создания соответствующих private remotes.
+Repositories клонируются как независимые sibling directories в общей локальной
+папке. Не вкладывайте один Git repository внутрь другого и не добавляйте
+submodules. Используйте предусмотренные clone scripts после создания
+соответствующих private remotes.
