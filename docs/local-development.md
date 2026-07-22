@@ -25,8 +25,9 @@ security hardening, backup или scaling policy.
 - `mailpit` — SMTP catcher и web UI.
 
 Сервисы используют healthchecks, named volumes и отдельную bridge network.
-Backend и Flutter в этот Compose не входят: они будут находиться в отдельных
-repositories.
+Backend и Flutter в этот Compose не входят: они находятся в отдельных
+repositories `tourism-backend` и `tourism-mobile` и подключаются к local stack
+через published ports PostgreSQL и Redis.
 
 Kafka также не входит в текущий Compose. Согласно ADR-005 broker добавляется
 только после появления подтверждённого producer/consumer flow и отдельного
@@ -74,12 +75,30 @@ make clean CONFIRM=yes
 6. Открыть Mailpit на `http://localhost:8025`.
 7. Выполнить `make validate` перед pull request.
 
-## Future submodules
+## Submodules implementation repositories
 
-После создания private remote repositories команда `make clone-repositories`
-проверит `git`, `gh`, authorization, superproject и доступность всех remotes,
-затем добавит их как Git submodules рядом с `tourism-platform`. Скрипт не
-перезаписывает существующие каталоги.
+`tourism-backend` и `tourism-mobile` уже доступны как private Git submodules
+superproject. Для `tourism-infrastructure` и `tourism-documentation` команда
+`make clone-repositories` проверит `git`, `gh`, authorization, superproject и
+доступность всех remotes, затем добавит их как Git submodules рядом с
+`tourism-platform`. Скрипт не перезаписывает существующие каталоги.
+
+### Backend и mobile после `make init`
+
+```bash
+# infrastructure
+make up
+
+# backend (из tourism-backend/)
+cp .env.example .env
+uv sync --all-extras --dev
+uv run alembic upgrade head
+uv run tourism-backend
+
+# mobile (из tourism-mobile/)
+flutter pub get
+flutter run
+```
 
 ## Ограничения
 

@@ -60,10 +60,10 @@ Git submodule общего superproject.
 
 ### Этап 1. Foundation
 
-- [ ] Создать private remote и добавить repository как submodule.
-- [ ] Создать Python 3.13 project через `uv`.
-- [ ] Зафиксировать domain boundaries и dependency rules.
-- [ ] Настроить FastAPI, configuration, logs и health endpoints.
+- [x] Создать private remote и добавить repository как submodule.
+- [x] Создать Python 3.13 project через `uv`.
+- [x] Зафиксировать domain boundaries и dependency rules.
+- [x] Настроить FastAPI, configuration, logs и health endpoints.
 
 ### Этап 2. Data и contracts
 
